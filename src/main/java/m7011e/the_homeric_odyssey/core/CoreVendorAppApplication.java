@@ -1,0 +1,13 @@
+package m7011e.the_homeric_odyssey.core;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class CoreVendorAppApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(CoreVendorAppApplication.class, args);
+	}
+
+}
