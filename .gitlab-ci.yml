@@ -36,7 +36,7 @@ docker_build:
     - echo "Building docker image..."
     - export NAME="registry.ludd.ltu.se/m7011e/core/core:latest"
     - docker build -t "$CI_REGISTRY_IMAGE/$DOCKER_IMAGE:$CI_COMMIT_SHORT_SHA" .
-    - docker push "$CI_REGISTRY_IMAGE/$DOCKER_IMAGE:$CI_CIMMIT_SHORT_SHA"
+    - docker push "$CI_REGISTRY_IMAGE/$DOCKER_IMAGE:$CI_COMMIT_SHORT_SHA"
   rules:
     - if: '$CI_COMMIT_BRANCH == "master"'
       when: always
