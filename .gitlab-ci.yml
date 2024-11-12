@@ -1,52 +1,44 @@
 # .gitlab-ci.yml
-stages:
-  - build
-  - test
-  - package
+#
+
+# Gradle docker image
+image: gradle:8.10.2-jdk21
 
 variables:
-  # Define the Gradle user home directory
-  GRADLE_USER_HOME: "$CI_PROJECT_DIR/.gradle"
+  DOCKER_DRIVER: overlay2
+  PROJECT_NAME: "vendor-store-core"
+  DOCKER_IMAGE: "vendor-store-core-docker"
 
-before_script:
-  # Ensure Gradle wrapper is executable
-  - chmod +x ./gradlew
+stages:
+  - build
+  - docker-build
+  - deploy
 
-build:
+build-app:
   stage: build
-  image: gradle:8.10.2-jdk21  # Use appropriate Gradle and JDK version
   script:
-    - ./gradlew clean assemble
+    - echo "Building vendor-store-core..."
+    - gradle clean build -x test
   artifacts:
     paths:
       - build/libs/*.jar
-  only:
-    - master
-    - develop
-    - feature/*
 
-test:
-  stage: test
-  image: gradle:8.10.2-jdk21
+docker_build:
+  stage: docker-build
+  image: docker:latest
+  services:
+    - docker:dind
+  variables:
+    DOCKER_IMAGE_NAME: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   script:
-    - ./gradlew test
-  artifacts:
-    when: always
-    paths:
-      - build/test-results/test/
-      - build/reports/tests/test/
-  only:
- #   - master
-    - develop
-    - feature/*
+    - echo "Building docker image..."
+    - export NAME="registry.ludd.ltu.se/m7011e/core/core:latest"
+    - docker build -t "$CI_REGISTRY_IMAGE/$DOCKER_IMAGE:$CI_COMMIT_SHORT_SHA" .
+    - docker push "$CI_REGISTRY_IMAGE/$DOCKER_IMAGE:$CI_CIMMIT_SHORT_SHA"
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
+      when: always
 
-package:
-  stage: package
-  image: gradle:8.10.2-jdk21
-  script:
-    - ./gradlew build
-  artifacts:
-    paths:
-      - build/libs/*.jar
-  only:
-    - master
+
