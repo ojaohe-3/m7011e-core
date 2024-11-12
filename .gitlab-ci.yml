@@ -14,7 +14,7 @@ before_script:
 
 build:
   stage: build
-  image: gradle:7.6-jdk17  # Use appropriate Gradle and JDK version
+  image: gradle:8.10.2-jdk21  # Use appropriate Gradle and JDK version
   script:
     - ./gradlew clean assemble
   artifacts:
@@ -27,7 +27,7 @@ build:
 
 test:
   stage: test
-  image: gradle:7.6-jdk17
+  image: gradle:8.10.2-jdk21
   script:
     - ./gradlew test
   artifacts:
@@ -42,7 +42,7 @@ test:
 
 package:
   stage: package
-  image: gradle:7.6-jdk17
+  image: gradle:8.10.2-jdk21
   script:
     - ./gradlew build
   artifacts:
