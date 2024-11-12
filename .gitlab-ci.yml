@@ -36,7 +36,7 @@ test:
       - build/test-results/test/
       - build/reports/tests/test/
   only:
-    - master
+ #   - master
     - develop
     - feature/*
 
