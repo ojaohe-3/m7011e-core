@@ -1,0 +1,61 @@
+repositories {
+    mavenCentral()
+    mavenLocal()
+    google()
+    maven {
+        allowInsecureProtocol = true
+
+        url("${reposiliteUrl}/snapshots")
+        name "Reposilite"
+        credentials(PasswordCredentials) {
+            username = reposiliteUser
+            password = reposiliteSecret
+        }
+        authentication {
+            basic(BasicAuthentication)
+        }
+    }
+
+    maven {
+        allowInsecureProtocol = true
+        url("${reposiliteUrl}/releases")
+        name "Reposilite"
+        credentials(PasswordCredentials) {
+            username = reposiliteUser
+            password = reposiliteSecret
+        }
+        authentication {
+            basic(BasicAuthentication)
+        }
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            allowInsecureProtocol = true
+            if (project.version.toString().endsWith('-SNAPSHOT')) {
+                url("${reposiliteUrl}/snapshots")
+            } else {
+                url("${reposiliteUrl}/releases")
+            }
+            name "Reposilite"
+            credentials(PasswordCredentials) {
+                username = reposiliteUser
+                password = reposiliteSecret
+            }
+            authentication {
+                basic(BasicAuthentication)
+            }
+        }
+    }
+    publications {
+
+        maven(MavenPublication) {
+            groupId = group
+            version = version
+            from components.java
+        }
+    }
+
+}
