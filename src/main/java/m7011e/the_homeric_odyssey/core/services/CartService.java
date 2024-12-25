@@ -1,5 +1,8 @@
 package m7011e.the_homeric_odyssey.core.services;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import m7011e.the_homeric_odyssey.authentication_components.services.UserAuthenticationHelper;
 import m7011e.the_homeric_odyssey.modelsModule.models.comands.CartCommand;
@@ -11,16 +14,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
 @Service
 @RequiredArgsConstructor
 public class CartService {
-    private final UserAuthenticationHelper userAuthenticationHelper;
     private static final String CART_KEY_PREFIX = "cart:";
-
+    private final UserAuthenticationHelper userAuthenticationHelper;
     private final RedisTemplate<String, Object> redisTemplate;
     private final ModelMapper modelMapper;
     private final ProductService productService; // Assume this exists to fetch product details

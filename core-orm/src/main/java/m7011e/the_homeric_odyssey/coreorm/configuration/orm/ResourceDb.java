@@ -7,31 +7,27 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Table(name = "resource")
 @Entity
 public class ResourceDb {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.UUID)
+  private UUID id;
 
-    @Version
-    private Long version;
+  @Version private Long version;
 
-    @CreationTimestamp
-    private LocalDateTime createdAt;
+  @CreationTimestamp private LocalDateTime createdAt;
 
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
+  @UpdateTimestamp private LocalDateTime updatedAt;
 
-    @Column(nullable = false)
-    private String value;
+  @Column(nullable = false)
+  private String value;
 
-    private String resourceId;
+  private String resourceId;
 }

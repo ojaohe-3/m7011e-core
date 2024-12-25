@@ -9,12 +9,12 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ModelMapperConfiguration {
 
-    private void configureModelMapper(ModelMapper modelMapper) {
-        modelMapper.typeMap(CartCommand.class, CartItem.class);
-    }
+  private void configureModelMapper(ModelMapper modelMapper) {
+    modelMapper.typeMap(CartCommand.class, CartItem.class);
+  }
 
-    @Bean
-    public ModelMapper modelMapper() {
-        return new ModelMapper();
-    }
+  @Bean
+  public ModelMapper modelMapper() {
+    return new ModelMapper();
+  }
 }

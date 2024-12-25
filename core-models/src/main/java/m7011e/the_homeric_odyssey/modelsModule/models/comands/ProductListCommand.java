@@ -4,12 +4,11 @@ import java.util.Set;
 import java.util.UUID;
 
 public record ProductListCommand(
-        Integer page,
-        Integer size,
-        String sortBy,
-        String sortDirection,
-        String nameFilter,
-        Double minPrice,
-        Double maxPrice,
-        Set<UUID> categoryIds
-) {}
+    Integer page,
+    Integer size,
+    String sortBy,
+    String sortDirection,
+    String nameFilter,
+    Double minPrice,
+    Double maxPrice,
+    Set<UUID> categoryIds) {}

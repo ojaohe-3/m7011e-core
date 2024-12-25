@@ -11,14 +11,14 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 @Configuration
 @EnableRedisHttpSession
 public class RedisConfiguration {
-    @Bean
-    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
-        RedisTemplate<String, Object> template = new RedisTemplate<>();
-        template.setConnectionFactory(connectionFactory);
-        template.setKeySerializer(new StringRedisSerializer());
-        template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
-        template.setHashKeySerializer(new StringRedisSerializer());
-        template.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
-        return template;
-    }
+  @Bean
+  public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
+    RedisTemplate<String, Object> template = new RedisTemplate<>();
+    template.setConnectionFactory(connectionFactory);
+    template.setKeySerializer(new StringRedisSerializer());
+    template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+    template.setHashKeySerializer(new StringRedisSerializer());
+    template.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
+    return template;
+  }
 }

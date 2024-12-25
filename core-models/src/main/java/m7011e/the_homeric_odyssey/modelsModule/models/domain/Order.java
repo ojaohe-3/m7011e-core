@@ -1,13 +1,12 @@
 package m7011e.the_homeric_odyssey.modelsModule.models.domain;
 
+import java.time.LocalDateTime;
+import java.util.Set;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-
-import java.time.LocalDateTime;
-import java.util.Set;
-import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -15,44 +14,43 @@ import java.util.UUID;
 @NoArgsConstructor
 public class Order {
 
-    private UUID id;
+  private UUID id;
 
-    private Long version;
+  private Long version;
 
+  private LocalDateTime createdAt;
 
-    private LocalDateTime createdAt;
+  private LocalDateTime updatedAt;
 
-    private LocalDateTime updatedAt;
+  private UUID sub;
 
-    private UUID sub;
+  private OrderStatus status;
 
-    private OrderStatus status;
+  private Set<Product> product;
 
-    private Set<Product> product;
+  private Integer quantity;
 
-    private Integer quantity;
+  private Double totalPrice;
 
-    private Double totalPrice;
+  private String shippingAddress;
 
-    private String shippingAddress;
+  private String billingAddress;
 
-    private String billingAddress;
+  private String contactEmail;
 
-    private String contactEmail;
+  private String contactPhone;
 
-    private String contactPhone;
+  private String paymentMethod;
 
-    private String paymentMethod;
+  private String paymentStatus;
 
-    private String paymentStatus;
+  private String transactionId;
 
-    private String transactionId;
+  private LocalDateTime paidAt;
 
-    private LocalDateTime paidAt;
+  private LocalDateTime shippedAt;
 
-    private LocalDateTime shippedAt;
+  private LocalDateTime deliveredAt;
 
-    private LocalDateTime deliveredAt;
-
-    private LocalDateTime cancelledAt;
+  private LocalDateTime cancelledAt;
 }
