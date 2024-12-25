@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.UUID;
 
 @Data
-public class ChartItem {
+public class CartItem {
     private UUID id;
     private Long version;
     private Product product;

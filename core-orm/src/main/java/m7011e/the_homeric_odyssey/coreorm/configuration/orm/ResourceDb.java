@@ -5,23 +5,18 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 import java.util.UUID;
 
-@Table(name = "products")
+@Table(name = "resource")
 @Entity
-@Data
-@RequiredArgsConstructor
-public class ProductDB {
+public class ResourceDb {
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -35,23 +30,8 @@ public class ProductDB {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    private String name;
+    @Column(nullable = false)
+    private String value;
 
-    @Column(length = 1024)
-    private String description;
-    private Double price;
-
-    @OneToMany
-    private Set<ResourceDb> categories;
-
-    @OneToMany
-    private Set<ResourceDb> documents;
-
-    private String displayImage;
-    private String companyLogo;
-    private String contactEmail;
-    private String contactPhone;
-    private String contactFax;
-    private String contactWebsite;
-    private String contactAddress;
+    private String resourceId;
 }

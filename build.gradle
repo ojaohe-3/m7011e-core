@@ -88,7 +88,7 @@ allprojects {
 
     dependencies {
         implementation platform(group: 'm7011e.the-homeric-odyssey', name: 'common-dependencies', version: '0.1.0')
-        implementation platform(group: 'm7011e.the-homeric-odyssey', name: 'registry', version: '0.1.0')
+//        implementation platform(group: 'm7011e.the-homeric-odyssey', name: 'registry', version: '0.1.0')
         api 'm7011e.the-homeric-odyssey:resource-server'
         api 'm7011e.the-homeric-odyssey:authentication-components'
 
@@ -149,12 +149,17 @@ project(":core-orm") {
 }
 
 dependencies {
+
+
+    implementation 'org.springframework.session:spring-session-data-redis'
+    testImplementation 'io.projectreactor:reactor-test'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
     implementation 'org.springframework.boot:spring-boot-starter-data-rest'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.cloud:spring-cloud-starter'
-    implementation 'org.springframework.session:spring-session-core'
     implementation 'org.springframework.cloud:spring-cloud-stream'
     implementation 'org.projectlombok:lombok'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
