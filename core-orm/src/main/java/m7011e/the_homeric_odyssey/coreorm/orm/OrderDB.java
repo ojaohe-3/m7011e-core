@@ -9,6 +9,7 @@ import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -38,12 +39,10 @@ public class OrderDB extends AbstractDbObject {
   @Enumerated(EnumType.STRING)
   private OrderStatus status;
 
-  @ManyToMany(
+  @OneToMany(
       cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
       fetch = FetchType.LAZY)
-  @JoinTable(name = "orders_product",
-  joinColumns = @JoinColumn(name = "product_id"),
-  inverseJoinColumns = @JoinColumn(name = "order_id"))
+  @JoinColumn(name = "product_id")
   private Set<ProductDB> product;
 
   private Integer quantity;
