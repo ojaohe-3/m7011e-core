@@ -1,4 +1,4 @@
-package m7011e.the_homeric_odyssey.core.services;
+package m7011e.the_homeric_odyssey.core.services.product;
 
 import java.util.UUID;
 import m7011e.the_homeric_odyssey.modelsModule.models.domain.Product;

@@ -3,7 +3,7 @@ package m7011e.the_homeric_odyssey.core.controllers;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
-import m7011e.the_homeric_odyssey.core.services.CartService;
+import m7011e.the_homeric_odyssey.core.services.session.CartService;
 import m7011e.the_homeric_odyssey.modelsModule.api.CartApi;
 import m7011e.the_homeric_odyssey.modelsModule.models.comands.CartCommand;
 import m7011e.the_homeric_odyssey.modelsModule.models.domain.CartItem;

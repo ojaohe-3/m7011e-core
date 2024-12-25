@@ -1,0 +1,5 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/init/25-01-changelog.yaml
+  - include:
+      file: db/changelog/init/25-02-changelog.yaml

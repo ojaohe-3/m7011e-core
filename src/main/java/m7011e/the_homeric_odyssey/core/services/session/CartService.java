@@ -1,10 +1,11 @@
-package m7011e.the_homeric_odyssey.core.services;
+package m7011e.the_homeric_odyssey.core.services.session;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import m7011e.the_homeric_odyssey.authentication_components.services.UserAuthenticationHelper;
+import m7011e.the_homeric_odyssey.core.services.product.ProductService;
 import m7011e.the_homeric_odyssey.modelsModule.models.comands.CartCommand;
 import m7011e.the_homeric_odyssey.modelsModule.models.domain.CartItem;
 import m7011e.the_homeric_odyssey.modelsModule.models.domain.Product;
