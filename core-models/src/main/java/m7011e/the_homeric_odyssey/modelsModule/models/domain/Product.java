@@ -28,4 +28,5 @@ public class Product {
   private String contactFax;
   private String contactWebsite;
   private String contactAddress;
+  private UUID sub;
 }

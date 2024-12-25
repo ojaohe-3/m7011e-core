@@ -8,10 +8,13 @@ import jakarta.persistence.Index;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.Set;
+import java.util.UUID;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import m7011e.the_homeric_odyssey.modelsModule.models.domain.ProductStatus;
 
+@EqualsAndHashCode(callSuper = true)
 @Table(
     name = "products",
     indexes = {
@@ -22,7 +25,7 @@ import m7011e.the_homeric_odyssey.modelsModule.models.domain.ProductStatus;
 @Entity
 @Data
 @RequiredArgsConstructor
-public class ProductDB extends AbstractDbObject{
+public class ProductDB extends AbstractDbObject {
 
   private String name;
 
@@ -51,4 +54,7 @@ public class ProductDB extends AbstractDbObject{
   private String contactWebsite;
 
   private String contactAddress;
+
+  @Column(nullable = false)
+  private UUID sub;
 }

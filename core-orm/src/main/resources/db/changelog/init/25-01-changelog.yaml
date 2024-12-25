@@ -161,6 +161,11 @@ databaseChangeLog:
               - column:
                   name: contact_address
                   type: VARCHAR(255)
+              - column:
+                  name: sub
+                  type: UUID
+                  constraints:
+                    nullable: false
             tableName: products
   - changeSet:
       id: 1735141803222-4

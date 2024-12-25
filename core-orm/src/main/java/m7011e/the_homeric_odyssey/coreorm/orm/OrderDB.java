@@ -14,9 +14,11 @@ import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import m7011e.the_homeric_odyssey.modelsModule.models.domain.OrderStatus;
 
+@EqualsAndHashCode(callSuper = true)
 @Table(
     name = "orders",
     indexes = {
