@@ -36,17 +36,24 @@ public interface ProductApi {
 
   @Operation(
       summary = "Update product",
-      description = "Updates an existing product with the provided details")
+      description =
+          "Updates an existing product with the provided details. Uses optimistic locking with version check.")
   @ApiResponses({
     @ApiResponse(
         responseCode = "200",
         description = "Product successfully updated",
         content = @Content(schema = @Schema(implementation = Product.class))),
-    @ApiResponse(responseCode = "404", description = "Product not found")
+    @ApiResponse(responseCode = "404", description = "Product not found"),
+    @ApiResponse(
+        responseCode = "409",
+        description = "Conflict - product was modified by another transaction")
   })
   @PutMapping("/{id}")
   ResponseEntity<Product> updateProduct(
       @Parameter(description = "Product ID", required = true) @PathVariable UUID id,
+      @Parameter(description = "Current version of the product", required = true)
+          @RequestHeader(name = "If-Match")
+          Long version,
       @Parameter(description = "Product update details", required = true) @RequestBody
           ProductUpdateCommand command);
 
@@ -76,12 +83,20 @@ public interface ProductApi {
       @Parameter(description = "Product listing parameters", required = true) @ModelAttribute
           ProductListCommand command);
 
-  @Operation(summary = "Delete product", description = "Deletes a specific product by ID")
+  @Operation(
+      summary = "Delete product",
+      description = "Deletes a specific product by ID. Uses optimistic locking with version check.")
   @ApiResponses({
     @ApiResponse(responseCode = "204", description = "Product successfully deleted"),
-    @ApiResponse(responseCode = "404", description = "Product not found")
+    @ApiResponse(responseCode = "404", description = "Product not found"),
+    @ApiResponse(
+        responseCode = "409",
+        description = "Conflict - product was modified by another transaction")
   })
   @DeleteMapping("/{id}")
   ResponseEntity<Void> deleteProduct(
-      @Parameter(description = "Product ID", required = true) @PathVariable UUID id);
+      @Parameter(description = "Product ID", required = true) @PathVariable UUID id,
+      @Parameter(description = "Current version of the product", required = true)
+          @RequestHeader(name = "If-Match")
+          Long version);
 }

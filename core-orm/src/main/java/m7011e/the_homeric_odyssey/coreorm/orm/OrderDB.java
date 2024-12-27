@@ -7,12 +7,9 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
-import java.util.Set;
 import java.util.UUID;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -23,6 +20,7 @@ import m7011e.the_homeric_odyssey.modelsModule.models.domain.OrderStatus;
 @Table(
     name = "orders",
     indexes = {
+      @Index(name = "fk_idx_order_product", columnList = "product_id"),
       @Index(name = "idx_order_user", columnList = "sub"),
       @Index(name = "idx_order_status", columnList = "status"),
       @Index(name = "idx_order_total", columnList = "totalPrice"),
@@ -39,11 +37,11 @@ public class OrderDB extends AbstractDbObject {
   @Enumerated(EnumType.STRING)
   private OrderStatus status;
 
-  @OneToMany(
+  @OneToOne(
       cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
       fetch = FetchType.LAZY)
   @JoinColumn(name = "product_id")
-  private Set<ProductDB> product;
+  private ProductDB product;
 
   private Integer quantity;
 

@@ -1,14 +1,14 @@
 package m7011e.the_homeric_odyssey.core.services.validation;
 
-import java.util.function.Supplier;
+import lombok.NonNull;
 import org.springframework.validation.Errors;
 
 public interface VerificationRow<T> {
-  void validate(T user, Errors errors);
+  void validate(@NonNull T resource, Errors errors);
 
   default void rejectOnCondition(
-      Supplier<Boolean> condition, Errors errors, String field, String errorCode) {
-    if (condition.get()) {
+          boolean condition, Errors errors, String field, String errorCode) {
+    if (condition) {
       errors.rejectValue(field, errorCode);
     }
   }

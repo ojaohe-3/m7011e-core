@@ -3,22 +3,33 @@ package m7011e.the_homeric_odyssey.core.services.product;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import m7011e.the_homeric_odyssey.core.repository.ProductQueryRepository;
 import m7011e.the_homeric_odyssey.core.repository.ProductRepository;
 import m7011e.the_homeric_odyssey.core.services.IPersistenceService;
 import m7011e.the_homeric_odyssey.core.util.VersionUtil;
 import m7011e.the_homeric_odyssey.coreorm.orm.ProductDB;
+import m7011e.the_homeric_odyssey.modelsModule.models.comands.ProductListCommand;
 import m7011e.the_homeric_odyssey.modelsModule.models.domain.Product;
 import m7011e.the_homeric_odyssey.resource_server.exceptions.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class ProductPersistenceService implements IPersistenceService<ProductDB, Product> {
 
-  public final ModelMapper modelMapper;
+  private final ModelMapper modelMapper;
 
-  public final ProductRepository productRepository;
+  private final ProductRepository productRepository;
+
+  private final ProductQueryRepository productQueryRepository;
 
   @Override
   public Product create(Product entity) {
@@ -62,5 +73,18 @@ public class ProductPersistenceService implements IPersistenceService<ProductDB,
   @Override
   public ProductDB mapToDB(Product product) {
     return modelMapper.map(product, ProductDB.class);
+  }
+
+  public Page<Product> query(ProductListCommand command) {
+    Pageable page =
+        PageRequest.of(
+            command.getPage(),
+            command.getSize(),
+            Sort.by(
+                command.getSortDirection(),
+                command.getSortBy() == null ? "createdAt" : command.getSortBy()));
+
+    Specification<ProductDB> specification = productRepository.createFilterSpecification(command);
+    return productQueryRepository.findAll(specification, page).map(this::mapToDomain);
   }
 }

@@ -3,22 +3,31 @@ package m7011e.the_homeric_odyssey.core.services.order;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import m7011e.the_homeric_odyssey.core.repository.OrderQueryRepository;
 import m7011e.the_homeric_odyssey.core.repository.OrderRepository;
 import m7011e.the_homeric_odyssey.core.services.IPersistenceService;
 import m7011e.the_homeric_odyssey.core.util.VersionUtil;
 import m7011e.the_homeric_odyssey.coreorm.orm.OrderDB;
+import m7011e.the_homeric_odyssey.modelsModule.models.comands.OrderListCommand;
 import m7011e.the_homeric_odyssey.modelsModule.models.domain.Order;
 import m7011e.the_homeric_odyssey.resource_server.exceptions.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class OrderPersistenceService implements IPersistenceService<OrderDB, Order> {
 
-  public final ModelMapper modelMapper;
+  private final ModelMapper modelMapper;
 
-  public final OrderRepository orderRepository;
+  private final OrderRepository orderRepository;
+
+  private final OrderQueryRepository orderQueryRepository;
 
   @Override
   public Order create(Order entity) {
@@ -62,5 +71,18 @@ public class OrderPersistenceService implements IPersistenceService<OrderDB, Ord
   @Override
   public OrderDB mapToDB(Order order) {
     return modelMapper.map(order, OrderDB.class);
+  }
+
+  public Page<Order> query(OrderListCommand command) {
+    Pageable page =
+        PageRequest.of(
+            command.getPage(),
+            command.getSize(),
+            Sort.by(
+                command.getSortDirection(),
+                command.getSortBy() == null ? "createdAt" : command.getSortBy()));
+
+    Specification<OrderDB> specification = orderRepository.createFilterSpecification(command);
+    return orderQueryRepository.findAll(specification, page).map(this::mapToDomain);
   }
 }

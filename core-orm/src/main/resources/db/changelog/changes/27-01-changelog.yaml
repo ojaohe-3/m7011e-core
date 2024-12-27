@@ -1,13 +1,8 @@
 databaseChangeLog:
   - changeSet:
-      id: 1735161271481-1
+      id: 1735299643795-1
       author: Johan-laptop
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
-      preConditions:
-        onFail: MARK_RAN
-        not:
-          tableExists:
-            tableName: orders
       changes:
         - createTable:
             columns:
@@ -33,6 +28,9 @@ databaseChangeLog:
               - column:
                   name: status
                   type: VARCHAR(255)
+              - column:
+                  name: product_id
+                  type: UUID
               - column:
                   name: quantity
                   type: INT
@@ -74,14 +72,9 @@ databaseChangeLog:
                   type: DATETIME
             tableName: orders
   - changeSet:
-      id: 1735161271481-2
+      id: 1735299643795-2
       author: Johan-laptop
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
-      preConditions:
-        onFail: MARK_RAN
-        not:
-          tableExists:
-            tableName: products
       changes:
         - createTable:
             columns:
@@ -139,19 +132,11 @@ databaseChangeLog:
                     nullable: false
                   name: sub
                   type: UUID
-              - column:
-                  name: product_id
-                  type: UUID
             tableName: products
   - changeSet:
-      id: 1735161271481-3
+      id: 1735299643795-3
       author: Johan-laptop
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
-      preConditions:
-        onFail: MARK_RAN
-        not:
-          tableExists:
-            tableName: products_categories
       changes:
         - createTable:
             columns:
@@ -171,14 +156,9 @@ databaseChangeLog:
                   type: UUID
             tableName: products_categories
   - changeSet:
-      id: 1735161271481-4
+      id: 1735299643795-4
       author: Johan-laptop
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
-      preConditions:
-        onFail: MARK_RAN
-        not:
-          tableExists:
-            tableName: products_documents
       changes:
         - createTable:
             columns:
@@ -198,14 +178,9 @@ databaseChangeLog:
                   type: UUID
             tableName: products_documents
   - changeSet:
-      id: 1735161271481-5
+      id: 1735299643795-5
       author: Johan-laptop
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
-      preConditions:
-        onFail: MARK_RAN
-        not:
-          tableExists:
-            tableName: resource
       changes:
         - createTable:
             columns:
@@ -235,44 +210,36 @@ databaseChangeLog:
                   type: VARCHAR(255)
             tableName: resource
   - changeSet:
-      id: 1735161271481-6
+      id: 1735299643795-6
       author: Johan-laptop
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
-      preConditions:
-        onFail: MARK_RAN
-        not:
-          uniqueConstraintExists:
-            columnNames: categories_id
-            tableName: products_categories
+      changes:
+        - addUniqueConstraint:
+            columnNames: product_id
+            constraintName: uc_orders_product
+            tableName: orders
+  - changeSet:
+      id: 1735299643795-7
+      author: Johan-laptop
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
         - addUniqueConstraint:
             columnNames: categories_id
             constraintName: uc_products_categories_categories
             tableName: products_categories
   - changeSet:
-      id: 1735161271481-7
+      id: 1735299643795-8
       author: Johan-laptop
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
-      preConditions:
-        onFail: MARK_RAN
-        not:
-          uniqueConstraintExists:
-            columnNames: documents_id
-            tableName: products_documents
       changes:
         - addUniqueConstraint:
             columnNames: documents_id
             constraintName: uc_products_documents_documents
             tableName: products_documents
   - changeSet:
-      id: 1735161271481-8
+      id: 1735299643795-10
       author: Johan-laptop
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
-      preConditions:
-        onFail: MARK_RAN
-        not:
-          indexExists:
-            indexName: idx_order_dates
       changes:
         - createIndex:
             columns:
@@ -283,14 +250,9 @@ databaseChangeLog:
             indexName: idx_order_dates
             tableName: orders
   - changeSet:
-      id: 1735161271481-9
+      id: 1735299643795-11
       author: Johan-laptop
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
-      preConditions:
-        onFail: MARK_RAN
-        not:
-          indexExists:
-            indexName: idx_order_status
       changes:
         - createIndex:
             columns:
@@ -299,14 +261,9 @@ databaseChangeLog:
             indexName: idx_order_status
             tableName: orders
   - changeSet:
-      id: 1735161271481-10
+      id: 1735299643795-12
       author: Johan-laptop
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
-      preConditions:
-        onFail: MARK_RAN
-        not:
-          indexExists:
-            indexName: idx_order_total
       changes:
         - createIndex:
             columns:
@@ -315,14 +272,9 @@ databaseChangeLog:
             indexName: idx_order_total
             tableName: orders
   - changeSet:
-      id: 1735161271481-11
+      id: 1735299643795-13
       author: Johan-laptop
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
-      preConditions:
-        onFail: MARK_RAN
-        not:
-          indexExists:
-            indexName: idx_order_user
       changes:
         - createIndex:
             columns:
@@ -331,14 +283,9 @@ databaseChangeLog:
             indexName: idx_order_user
             tableName: orders
   - changeSet:
-      id: 1735161271481-12
+      id: 1735299643795-14
       author: Johan-laptop
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
-      preConditions:
-        onFail: MARK_RAN
-        not:
-          indexExists:
-            indexName: idx_order_user_date
       changes:
         - createIndex:
             columns:
@@ -349,14 +296,9 @@ databaseChangeLog:
             indexName: idx_order_user_date
             tableName: orders
   - changeSet:
-      id: 1735161271481-13
+      id: 1735299643795-15
       author: Johan-laptop
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
-      preConditions:
-        onFail: MARK_RAN
-        not:
-          indexExists:
-            indexName: idx_product_name
       changes:
         - createIndex:
             columns:
@@ -365,14 +307,9 @@ databaseChangeLog:
             indexName: idx_product_name
             tableName: products
   - changeSet:
-      id: 1735161271481-14
+      id: 1735299643795-16
       author: Johan-laptop
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
-      preConditions:
-        onFail: MARK_RAN
-        not:
-          indexExists:
-            indexName: idx_product_price
       changes:
         - createIndex:
             columns:
@@ -381,14 +318,9 @@ databaseChangeLog:
             indexName: idx_product_price
             tableName: products
   - changeSet:
-      id: 1735161271481-15
+      id: 1735299643795-17
       author: Johan-laptop
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
-      preConditions:
-        onFail: MARK_RAN
-        not:
-          indexExists:
-            indexName: idx_product_status
       changes:
         - createIndex:
             columns:
@@ -399,30 +331,26 @@ databaseChangeLog:
             indexName: idx_product_status
             tableName: products
   - changeSet:
-      id: 1735161271481-16
+      id: 1735299643795-18
       author: Johan-laptop
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
-      preConditions:
-        onFail: MARK_RAN
-        not:
-          foreignKeyConstraintExists:
-            foreignKeyName: FK_PRODUCTS_ON_PRODUCT
       changes:
         - addForeignKeyConstraint:
             baseColumnNames: product_id
-            baseTableName: products
-            constraintName: FK_PRODUCTS_ON_PRODUCT
+            baseTableName: orders
+            constraintName: FK_ORDERS_ON_PRODUCT
             referencedColumnNames: id
-            referencedTableName: orders
+            referencedTableName: products
+        - createIndex:
+            columns:
+              - column:
+                  name: product_id
+            indexName: fk_idx_order_product
+            tableName: orders
   - changeSet:
-      id: 1735161271481-17
+      id: 1735299643795-19
       author: Johan-laptop
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
-      preConditions:
-        onFail: MARK_RAN
-        not:
-          foreignKeyConstraintExists:
-            foreignKeyName: fk_procat_on_product_d_b
       changes:
         - addForeignKeyConstraint:
             baseColumnNames: productdb_id
@@ -431,14 +359,9 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: products
   - changeSet:
-      id: 1735161271481-18
+      id: 1735299643795-20
       author: Johan-laptop
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
-      preConditions:
-        onFail: MARK_RAN
-        not:
-          foreignKeyConstraintExists:
-            foreignKeyName: fk_procat_on_resource_db
       changes:
         - addForeignKeyConstraint:
             baseColumnNames: categories_id
@@ -447,14 +370,9 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: resource
   - changeSet:
-      id: 1735161271481-19
+      id: 1735299643795-21
       author: Johan-laptop
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
-      preConditions:
-        onFail: MARK_RAN
-        not:
-          foreignKeyConstraintExists:
-            foreignKeyName: fk_prodoc_on_product_d_b
       changes:
         - addForeignKeyConstraint:
             baseColumnNames: productdb_id
@@ -463,14 +381,9 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: products
   - changeSet:
-      id: 1735161271481-20
+      id: 1735299643795-22
       author: Johan-laptop
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
-      preConditions:
-        onFail: MARK_RAN
-        not:
-          foreignKeyConstraintExists:
-            foreignKeyName: fk_prodoc_on_resource_db
       changes:
         - addForeignKeyConstraint:
             baseColumnNames: documents_id
@@ -478,3 +391,4 @@ databaseChangeLog:
             constraintName: fk_prodoc_on_resource_db
             referencedColumnNames: id
             referencedTableName: resource
+

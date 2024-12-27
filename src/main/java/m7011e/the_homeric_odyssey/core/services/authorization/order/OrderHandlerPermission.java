@@ -1,5 +1,6 @@
 package m7011e.the_homeric_odyssey.core.services.authorization.order;
 
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import m7011e.the_homeric_odyssey.authentication_components.services.UserAuthenticationHelper;
 import m7011e.the_homeric_odyssey.core.util.ResourceAuthorizationUtil;
@@ -26,9 +27,8 @@ public class OrderHandlerPermission implements OrderAuthenticationRow {
   }
 
   private boolean hasAccessToAProduct(Order resource) {
-    return resource.getProduct().stream()
-        .anyMatch(
-            product ->
-                ResourceAuthorizationUtil.isOwner(userAuthenticationHelper, resource.getSub()));
+    return Objects.nonNull(resource.getProduct())
+        && ResourceAuthorizationUtil.isOwner(
+            userAuthenticationHelper, resource.getProduct().getSub());
   }
 }

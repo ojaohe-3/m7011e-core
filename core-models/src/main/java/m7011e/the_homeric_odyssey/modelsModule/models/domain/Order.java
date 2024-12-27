@@ -1,7 +1,6 @@
 package m7011e.the_homeric_odyssey.modelsModule.models.domain;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,7 +23,7 @@ public class Order {
 
   private OrderStatus status;
 
-  private Set<Product> product;
+  private Product product;
 
   private Integer quantity;
 
