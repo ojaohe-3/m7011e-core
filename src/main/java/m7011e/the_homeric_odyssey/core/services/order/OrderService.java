@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class OrderService {
 
-  private final OrderPersistenceService persistenceService;
+  private final OrderPersistenceService orderPersistenceService;
 
   private final OrderAuthenticationService authenticationService;
 
@@ -32,7 +32,7 @@ public class OrderService {
   private final ModelMapper modelMapper;
 
   public Order getOrder(UUID orderId) {
-    Order order = persistenceService.get(orderId);
+    Order order = orderPersistenceService.get(orderId);
     checkReadPermission(orderId, order);
     return order;
   }
@@ -41,27 +41,27 @@ public class OrderService {
     Order order = modelMapper.map(orderCreateCommand, Order.class);
     order.setSub(UUID.fromString(userAuthenticationHelper.getUserId().orElseThrow()));
     orderVerificationService.verifyOrder(order);
-    return persistenceService.create(order);
+    return orderPersistenceService.create(order);
   }
 
   public Order updateOrderStatus(OrderStatusUpdateCommand command, UUID orderId, Long version) {
-    Order order = persistenceService.get(orderId);
+    Order order = orderPersistenceService.get(orderId);
     checkWritePermission(order.getId(), order);
 
     modelMapper.map(command, order);
     orderVerificationService.verifyOrder(order);
 
-    return persistenceService.update(order, orderId, version);
+    return orderPersistenceService.update(order, orderId, version);
   }
 
   public Order updateOrder(OrderCreateCommand command, UUID orderId, Long version) {
-    Order order = persistenceService.get(orderId);
+    Order order = orderPersistenceService.get(orderId);
     checkWritePermission(order.getId(), order);
 
     modelMapper.map(command, order);
     orderVerificationService.verifyOrder(order);
 
-    return persistenceService.update(order, orderId, version);
+    return orderPersistenceService.update(order, orderId, version);
   }
 
   private void checkReadPermission(UUID orderId, Order order) {
@@ -86,17 +86,17 @@ public class OrderService {
 
   public Page<Order> queryOrders(OrderListCommand command) {
     command.setSub(UUID.fromString(userAuthenticationHelper.getUserId().orElseThrow()));
-    return persistenceService.query(command);
+    return orderPersistenceService.query(command);
   }
 
   public Order cancelOrder(UUID orderId, Long version) {
-    Order existingOrder = persistenceService.get(orderId);
+    Order existingOrder = orderPersistenceService.get(orderId);
     checkWritePermission(existingOrder.getId(), existingOrder);
 
     existingOrder.setCancelledAt(LocalDateTime.now(ZoneOffset.UTC));
     existingOrder.setStatus(OrderStatus.CANCELLED);
     orderVerificationService.verifyOrder(existingOrder);
 
-    return persistenceService.update(existingOrder, orderId, version);
+    return orderPersistenceService.update(existingOrder, orderId, version);
   }
 }

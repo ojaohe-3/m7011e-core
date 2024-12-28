@@ -1,19 +1,19 @@
 package m7011e.the_homeric_odyssey.core.services.authorization.product;
 
-import java.util.Set;
+import lombok.RequiredArgsConstructor;
+import m7011e.the_homeric_odyssey.core.configuration.CoreVendorConfigurationProperties;
 import m7011e.the_homeric_odyssey.modelsModule.models.domain.Product;
-import m7011e.the_homeric_odyssey.modelsModule.models.domain.ProductStatus;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class ProductPublicPermissions implements ProductAuthenticationRow {
 
-  private final Set<ProductStatus> allowedReadableStatues = // TODO make configurable
-      Set.of(ProductStatus.AVAILABLE, ProductStatus.PREORDER, ProductStatus.EMPTY);
+  private final CoreVendorConfigurationProperties properties;
 
   @Override
   public boolean hasReadPermission(Product resource) {
-    return allowedReadableStatues.contains(resource.getStatus());
+    return properties.getProductPubliclyAvailable().contains(resource.getStatus());
   }
 
   @Override

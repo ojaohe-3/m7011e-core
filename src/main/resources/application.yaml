@@ -23,3 +23,6 @@ logging:
 
 resource-server:
   client-id: ${KEYCLOAK_CLIENT_ID:auth-server-client}
+
+application:
+  - product-publicly-available: ${CORE_PRODUCT_PUBLICLY_AVAILABLE_STATUES:AVAILABLE,PREORDER,EMPTY}
