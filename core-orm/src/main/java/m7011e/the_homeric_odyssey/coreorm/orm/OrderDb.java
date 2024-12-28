@@ -30,7 +30,7 @@ import m7011e.the_homeric_odyssey.modelsModule.models.domain.OrderStatus;
 @Entity
 @Data
 @RequiredArgsConstructor
-public class OrderDB extends AbstractDbObject {
+public class OrderDb extends AbstractDbObject {
 
   private UUID sub;
 
@@ -41,7 +41,7 @@ public class OrderDB extends AbstractDbObject {
       cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
       fetch = FetchType.LAZY)
   @JoinColumn(name = "product_id")
-  private ProductDB product;
+  private ProductDb product;
 
   private Integer quantity;
 

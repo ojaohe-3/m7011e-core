@@ -7,12 +7,11 @@ import m7011e.the_homeric_odyssey.core.repository.ProductQueryRepository;
 import m7011e.the_homeric_odyssey.core.repository.ProductRepository;
 import m7011e.the_homeric_odyssey.core.services.IPersistenceService;
 import m7011e.the_homeric_odyssey.core.util.VersionUtil;
-import m7011e.the_homeric_odyssey.coreorm.orm.ProductDB;
+import m7011e.the_homeric_odyssey.coreorm.orm.ProductDb;
 import m7011e.the_homeric_odyssey.modelsModule.models.comands.ProductListCommand;
 import m7011e.the_homeric_odyssey.modelsModule.models.domain.Product;
 import m7011e.the_homeric_odyssey.resource_server.exceptions.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -24,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class ProductPersistenceService implements IPersistenceService<ProductDB, Product> {
+public class ProductPersistenceService implements IPersistenceService<ProductDb, Product> {
 
   private final ModelMapper modelMapper;
 
@@ -67,13 +66,13 @@ public class ProductPersistenceService implements IPersistenceService<ProductDB,
   }
 
   @Override
-  public Product mapToDomain(ProductDB entity) {
+  public Product mapToDomain(ProductDb entity) {
     return modelMapper.map(entity, Product.class);
   }
 
   @Override
-  public ProductDB mapToDB(Product product) {
-    return modelMapper.map(product, ProductDB.class);
+  public ProductDb mapToDB(Product product) {
+    return modelMapper.map(product, ProductDb.class);
   }
 
   public Page<Product> query(ProductListCommand command) {
@@ -85,7 +84,7 @@ public class ProductPersistenceService implements IPersistenceService<ProductDB,
                 command.getSortDirection(),
                 command.getSortBy() == null ? "createdAt" : command.getSortBy()));
 
-    Specification<ProductDB> specification = productRepository.createFilterSpecification(command);
+    Specification<ProductDb> specification = productRepository.createFilterSpecification(command);
     return productQueryRepository.findAll(specification, page).map(this::mapToDomain);
   }
 }

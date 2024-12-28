@@ -4,15 +4,15 @@ import jakarta.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import m7011e.the_homeric_odyssey.coreorm.orm.OrderDB;
+import m7011e.the_homeric_odyssey.coreorm.orm.OrderDb;
 import m7011e.the_homeric_odyssey.modelsModule.models.comands.OrderListCommand;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface OrderRepository extends JpaRepository<OrderDB, UUID> {
-  default Specification<OrderDB> createFilterSpecification(OrderListCommand command) {
+public interface OrderRepository extends JpaRepository<OrderDb, UUID> {
+  default Specification<OrderDb> createFilterSpecification(OrderListCommand command) {
     return (root, query, cb) -> {
       List<Predicate> predicates = new ArrayList<>();
 

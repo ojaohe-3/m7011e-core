@@ -4,10 +4,12 @@ import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 @Data
+@Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
 public class Product {
@@ -19,8 +21,8 @@ public class Product {
   private String description;
   private Double price;
   private ProductStatus status;
-  private Set<String> categories;
-  private Set<String> documents;
+  private Set<Resource> categories;
+  private Set<Resource> documents;
   private String displayImage;
   private String companyLogo;
   private String contactEmail;

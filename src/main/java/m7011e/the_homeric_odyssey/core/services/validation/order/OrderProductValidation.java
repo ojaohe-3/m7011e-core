@@ -5,7 +5,7 @@ import java.util.Set;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import m7011e.the_homeric_odyssey.core.repository.ProductRepository;
-import m7011e.the_homeric_odyssey.coreorm.orm.ProductDB;
+import m7011e.the_homeric_odyssey.coreorm.orm.ProductDb;
 import m7011e.the_homeric_odyssey.modelsModule.models.domain.Order;
 import m7011e.the_homeric_odyssey.modelsModule.models.domain.ProductStatus;
 import org.springframework.stereotype.Component;
@@ -31,7 +31,7 @@ public class OrderProductValidation implements OrderVerificationRow {
     rejectOnCondition(
         productRepository
             .findById(resource.getProduct().getId())
-            .map(ProductDB::getStatus)
+            .map(ProductDb::getStatus)
             .filter(INVALID_PRODUCT_STATUES::contains)
             .isPresent(),
         errors,

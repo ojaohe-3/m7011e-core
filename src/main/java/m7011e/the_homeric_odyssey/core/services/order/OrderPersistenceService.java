@@ -7,7 +7,7 @@ import m7011e.the_homeric_odyssey.core.repository.OrderQueryRepository;
 import m7011e.the_homeric_odyssey.core.repository.OrderRepository;
 import m7011e.the_homeric_odyssey.core.services.IPersistenceService;
 import m7011e.the_homeric_odyssey.core.util.VersionUtil;
-import m7011e.the_homeric_odyssey.coreorm.orm.OrderDB;
+import m7011e.the_homeric_odyssey.coreorm.orm.OrderDb;
 import m7011e.the_homeric_odyssey.modelsModule.models.comands.OrderListCommand;
 import m7011e.the_homeric_odyssey.modelsModule.models.domain.Order;
 import m7011e.the_homeric_odyssey.resource_server.exceptions.ResourceNotFoundException;
@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class OrderPersistenceService implements IPersistenceService<OrderDB, Order> {
+public class OrderPersistenceService implements IPersistenceService<OrderDb, Order> {
 
   private final ModelMapper modelMapper;
 
@@ -64,13 +64,13 @@ public class OrderPersistenceService implements IPersistenceService<OrderDB, Ord
   }
 
   @Override
-  public Order mapToDomain(OrderDB entity) {
+  public Order mapToDomain(OrderDb entity) {
     return modelMapper.map(entity, Order.class);
   }
 
   @Override
-  public OrderDB mapToDB(Order order) {
-    return modelMapper.map(order, OrderDB.class);
+  public OrderDb mapToDB(Order order) {
+    return modelMapper.map(order, OrderDb.class);
   }
 
   public Page<Order> query(OrderListCommand command) {
@@ -82,7 +82,7 @@ public class OrderPersistenceService implements IPersistenceService<OrderDB, Ord
                 command.getSortDirection(),
                 command.getSortBy() == null ? "createdAt" : command.getSortBy()));
 
-    Specification<OrderDB> specification = orderRepository.createFilterSpecification(command);
+    Specification<OrderDb> specification = orderRepository.createFilterSpecification(command);
     return orderQueryRepository.findAll(specification, page).map(this::mapToDomain);
   }
 }

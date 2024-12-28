@@ -9,6 +9,9 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.Set;
 import java.util.UUID;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +27,10 @@ import m7011e.the_homeric_odyssey.modelsModule.models.domain.ProductStatus;
     })
 @Entity
 @Data
+@Builder
 @RequiredArgsConstructor
-public class ProductDB extends AbstractDbObject {
+@AllArgsConstructor
+public class ProductDb extends AbstractDbObject {
 
   private String name;
 

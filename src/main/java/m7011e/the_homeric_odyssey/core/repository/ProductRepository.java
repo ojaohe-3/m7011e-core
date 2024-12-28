@@ -5,7 +5,7 @@ import jakarta.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import m7011e.the_homeric_odyssey.coreorm.orm.ProductDB;
+import m7011e.the_homeric_odyssey.coreorm.orm.ProductDb;
 import m7011e.the_homeric_odyssey.modelsModule.models.comands.ProductListCommand;
 import m7011e.the_homeric_odyssey.modelsModule.models.domain.Product;
 import m7011e.the_homeric_odyssey.modelsModule.models.domain.Resource;
@@ -15,8 +15,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ProductRepository extends JpaRepository<ProductDB, UUID> {
-  default Specification<ProductDB> createFilterSpecification(ProductListCommand command) {
+public interface ProductRepository extends JpaRepository<ProductDb, UUID> {
+  default Specification<ProductDb> createFilterSpecification(ProductListCommand command) {
     return (root, query, cb) -> {
       List<Predicate> predicates = new ArrayList<>();
 
