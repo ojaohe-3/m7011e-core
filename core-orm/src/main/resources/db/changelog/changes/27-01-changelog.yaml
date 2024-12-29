@@ -1,0 +1,394 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1735299643795-1
+      author: Johan-laptop
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_orders
+                  name: id
+                  type: UUID
+              - column:
+                  name: version
+                  type: BIGINT
+              - column:
+                  name: created_at
+                  type: DATETIME
+              - column:
+                  name: updated_at
+                  type: DATETIME
+              - column:
+                  name: sub
+                  type: UUID
+              - column:
+                  name: status
+                  type: VARCHAR(255)
+              - column:
+                  name: product_id
+                  type: UUID
+              - column:
+                  name: quantity
+                  type: INT
+              - column:
+                  name: total_price
+                  type: DOUBLE
+              - column:
+                  name: shipping_address
+                  type: VARCHAR(255)
+              - column:
+                  name: billing_address
+                  type: VARCHAR(255)
+              - column:
+                  name: contact_email
+                  type: VARCHAR(255)
+              - column:
+                  name: contact_phone
+                  type: VARCHAR(255)
+              - column:
+                  name: payment_method
+                  type: VARCHAR(255)
+              - column:
+                  name: payment_status
+                  type: VARCHAR(255)
+              - column:
+                  name: transaction_id
+                  type: VARCHAR(255)
+              - column:
+                  name: paid_at
+                  type: DATETIME
+              - column:
+                  name: shipped_at
+                  type: DATETIME
+              - column:
+                  name: delivered_at
+                  type: DATETIME
+              - column:
+                  name: cancelled_at
+                  type: DATETIME
+            tableName: orders
+  - changeSet:
+      id: 1735299643795-2
+      author: Johan-laptop
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_products
+                  name: id
+                  type: UUID
+              - column:
+                  name: version
+                  type: BIGINT
+              - column:
+                  name: created_at
+                  type: DATETIME
+              - column:
+                  name: updated_at
+                  type: DATETIME
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+              - column:
+                  name: description
+                  type: VARCHAR(1024)
+              - column:
+                  name: price
+                  type: DOUBLE
+              - column:
+                  name: status
+                  type: VARCHAR(255)
+              - column:
+                  name: display_image
+                  type: VARCHAR(255)
+              - column:
+                  name: company_logo
+                  type: VARCHAR(255)
+              - column:
+                  name: contact_email
+                  type: VARCHAR(255)
+              - column:
+                  name: contact_phone
+                  type: VARCHAR(255)
+              - column:
+                  name: contact_fax
+                  type: VARCHAR(255)
+              - column:
+                  name: contact_website
+                  type: VARCHAR(255)
+              - column:
+                  name: contact_address
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: sub
+                  type: UUID
+            tableName: products
+  - changeSet:
+      id: 1735299643795-3
+      author: Johan-laptop
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_products_categories
+                  name: productdb_id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_products_categories
+                  name: categories_id
+                  type: UUID
+            tableName: products_categories
+  - changeSet:
+      id: 1735299643795-4
+      author: Johan-laptop
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_products_documents
+                  name: productdb_id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_products_documents
+                  name: documents_id
+                  type: UUID
+            tableName: products_documents
+  - changeSet:
+      id: 1735299643795-5
+      author: Johan-laptop
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_resource
+                  name: id
+                  type: UUID
+              - column:
+                  name: version
+                  type: BIGINT
+              - column:
+                  name: created_at
+                  type: DATETIME
+              - column:
+                  name: updated_at
+                  type: DATETIME
+              - column:
+                  constraints:
+                    nullable: false
+                  name: value
+                  type: VARCHAR(255)
+              - column:
+                  name: resource_id
+                  type: VARCHAR(255)
+            tableName: resource
+  - changeSet:
+      id: 1735299643795-6
+      author: Johan-laptop
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addUniqueConstraint:
+            columnNames: product_id
+            constraintName: uc_orders_product
+            tableName: orders
+  - changeSet:
+      id: 1735299643795-7
+      author: Johan-laptop
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addUniqueConstraint:
+            columnNames: categories_id
+            constraintName: uc_products_categories_categories
+            tableName: products_categories
+  - changeSet:
+      id: 1735299643795-8
+      author: Johan-laptop
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addUniqueConstraint:
+            columnNames: documents_id
+            constraintName: uc_products_documents_documents
+            tableName: products_documents
+  - changeSet:
+      id: 1735299643795-10
+      author: Johan-laptop
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createIndex:
+            columns:
+              - column:
+                  name: created_at
+              - column:
+                  name: updated_at
+            indexName: idx_order_dates
+            tableName: orders
+  - changeSet:
+      id: 1735299643795-11
+      author: Johan-laptop
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createIndex:
+            columns:
+              - column:
+                  name: status
+            indexName: idx_order_status
+            tableName: orders
+  - changeSet:
+      id: 1735299643795-12
+      author: Johan-laptop
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createIndex:
+            columns:
+              - column:
+                  name: total_price
+            indexName: idx_order_total
+            tableName: orders
+  - changeSet:
+      id: 1735299643795-13
+      author: Johan-laptop
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createIndex:
+            columns:
+              - column:
+                  name: sub
+            indexName: idx_order_user
+            tableName: orders
+  - changeSet:
+      id: 1735299643795-14
+      author: Johan-laptop
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createIndex:
+            columns:
+              - column:
+                  name: sub
+              - column:
+                  name: created_at
+            indexName: idx_order_user_date
+            tableName: orders
+  - changeSet:
+      id: 1735299643795-15
+      author: Johan-laptop
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createIndex:
+            columns:
+              - column:
+                  name: name
+            indexName: idx_product_name
+            tableName: products
+  - changeSet:
+      id: 1735299643795-16
+      author: Johan-laptop
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createIndex:
+            columns:
+              - column:
+                  name: price
+            indexName: idx_product_price
+            tableName: products
+  - changeSet:
+      id: 1735299643795-17
+      author: Johan-laptop
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createIndex:
+            columns:
+              - column:
+                  name: id
+              - column:
+                  name: status
+            indexName: idx_product_status
+            tableName: products
+  - changeSet:
+      id: 1735299643795-18
+      author: Johan-laptop
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: product_id
+            baseTableName: orders
+            constraintName: FK_ORDERS_ON_PRODUCT
+            referencedColumnNames: id
+            referencedTableName: products
+        - createIndex:
+            columns:
+              - column:
+                  name: product_id
+            indexName: fk_idx_order_product
+            tableName: orders
+  - changeSet:
+      id: 1735299643795-19
+      author: Johan-laptop
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: productdb_id
+            baseTableName: products_categories
+            constraintName: fk_procat_on_product_d_b
+            referencedColumnNames: id
+            referencedTableName: products
+  - changeSet:
+      id: 1735299643795-20
+      author: Johan-laptop
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: categories_id
+            baseTableName: products_categories
+            constraintName: fk_procat_on_resource_db
+            referencedColumnNames: id
+            referencedTableName: resource
+  - changeSet:
+      id: 1735299643795-21
+      author: Johan-laptop
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: productdb_id
+            baseTableName: products_documents
+            constraintName: fk_prodoc_on_product_d_b
+            referencedColumnNames: id
+            referencedTableName: products
+  - changeSet:
+      id: 1735299643795-22
+      author: Johan-laptop
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: documents_id
+            baseTableName: products_documents
+            constraintName: fk_prodoc_on_resource_db
+            referencedColumnNames: id
+            referencedTableName: resource
+

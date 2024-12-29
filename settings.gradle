@@ -1,1 +1,4 @@
 rootProject.name = 'core'
+include 'core-orm'
+include 'core-models'
+
