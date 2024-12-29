@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import m7011e.the_homeric_odyssey.modelsModule.models.domain.ProductStatus;
 import m7011e.the_homeric_odyssey.modelsModule.models.domain.Resource;
 
 @Data
@@ -17,6 +18,8 @@ public class ProductCreateCommand {
   private String description;
 
   private Double price;
+
+  private ProductStatus status;
 
   private Set<Resource> categories;
 

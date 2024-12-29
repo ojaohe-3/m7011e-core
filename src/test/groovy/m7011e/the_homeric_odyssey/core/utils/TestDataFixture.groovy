@@ -1,6 +1,8 @@
 package m7011e.the_homeric_odyssey.core.utils
 
 import m7011e.the_homeric_odyssey.modelsModule.models.comands.OrderCreateCommand
+import m7011e.the_homeric_odyssey.modelsModule.models.comands.ProductCreateCommand
+import m7011e.the_homeric_odyssey.modelsModule.models.comands.ProductUpdateCommand
 import m7011e.the_homeric_odyssey.modelsModule.models.domain.*
 import org.apache.commons.lang3.RandomStringUtils
 
@@ -104,5 +106,46 @@ class TestDataFixture {
                 .cancelledAt(overrides.cancelledAt ?: defaultDateTime)
                 .build()
         return command
+    }
+
+    static ProductCreateCommand createTestProductCommand(Map overrides = [:]) {
+
+        def product = ProductCreateCommand.builder()
+                .name(overrides.name as String ?: "Test Product ${RandomStringUtils.random(10)}")
+                .description(overrides.description as String ?: "This is a test product description")
+                .price(overrides.price ?: 99.99)
+                .status(overrides.status ?: ProductStatus.AVAILABLE)
+                .categories(overrides.categories ?: createTestResourceBatch(1) as Set)
+                .documents(overrides.documents ?: createTestResourceBatch(2) as Set)
+                .displayImage(overrides.displayImage ?: "https://example.com/image.jpg")
+                .companyLogo(overrides.companyLogo ?: "https://example.com/logo.png")
+                .contactEmail(overrides.contactEmail ?: "test@example.com")
+                .contactPhone(overrides.contactPhone ?: "+1-555-0123")
+                .contactFax(overrides.contactFax ?: "+1-555-0124")
+                .contactWebsite(overrides.contactWebsite ?: "https://example.com")
+                .contactAddress(overrides.contactAddress ?: "123 Test Street, Test City")
+                .build()
+
+        return product
+    }
+
+    static ProductUpdateCommand createUpdateTestProductCommand(Map overrides = [:]) {
+
+        def product = ProductUpdateCommand.builder()
+                .name(overrides.name as String ?: "Test Product ${RandomStringUtils.random(10)}")
+                .description(overrides.description as String ?: "This is a test product description")
+                .price(overrides.price ?: 99.99)
+                .status(overrides.status ?: ProductStatus.AVAILABLE)
+                .documents(overrides.categories ?: createTestResourceBatch(1) as Set)
+                .categories(overrides.documents ?: createTestResourceBatch(2) as Set)
+                .companyLogo(overrides.displayImage ?: "https://example.com/image.jpg")
+                .contactEmail(overrides.companyLogo ?: "https://example.com/logo.png")
+                .contactPhone(overrides.contactEmail ?: "test@example.com")
+                .contactFax(overrides.contactPhone ?: "+1-555-0123")
+                .contactWebsite(overrides.contactFax ?: "+1-555-0124")
+                .contactAddress(overrides.contactWebsite ?: "https://example.com")
+                .build()
+
+        return product
     }
 }

@@ -50,7 +50,7 @@ public class OrderService {
     Order order = orderPersistenceService.get(orderId);
     checkWritePermission(order.getId(), order);
 
-    modelMapper.map(command, order);
+    order.setStatus(command.newStatus());
     orderVerificationService.verifyOrder(order);
 
     return orderPersistenceService.update(order, orderId, version);
