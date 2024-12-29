@@ -1,20 +1,38 @@
 package m7011e.the_homeric_odyssey.modelsModule.models.comands;
 
 import java.util.Set;
-import java.util.UUID;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import m7011e.the_homeric_odyssey.modelsModule.models.domain.Resource;
 
-// Command for updating an existing product
-public record ProductUpdateCommand(
-    UUID id,
-    String name,
-    String description,
-    Double price,
-    Set<UUID> categoryIds,
-    Set<UUID> documentIds,
-    String displayImage,
-    String companyLogo,
-    String contactEmail,
-    String contactPhone,
-    String contactFax,
-    String contactWebsite,
-    String contactAddress) {}
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class ProductUpdateCommand {
+  private String name;
+
+  private String description;
+
+  private Double price;
+
+  private Set<Resource> categories;
+
+  private Set<Resource> documents;
+
+  private String displayImage;
+
+  private String companyLogo;
+
+  private String contactEmail;
+
+  private String contactPhone;
+
+  private String contactFax;
+
+  private String contactWebsite;
+
+  private String contactAddress;
+}

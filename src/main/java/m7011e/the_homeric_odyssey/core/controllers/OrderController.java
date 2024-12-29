@@ -27,7 +27,13 @@ public class OrderController implements OrderApi {
   }
 
   @Override
-  public ResponseEntity<Order> updateOrderStatus(UUID orderId, Long version, OrderStatusUpdateCommand command) {
+  public ResponseEntity<Order> updateOrder(UUID orderId, Long version, OrderCreateCommand command) {
+    return ResponseEntity.ok(orderService.updateOrder(command, orderId, version));
+  }
+
+  @Override
+  public ResponseEntity<Order> updateOrderStatus(
+      UUID orderId, Long version, OrderStatusUpdateCommand command) {
     return ResponseEntity.ok(orderService.updateOrderStatus(command, orderId, version));
   }
 
@@ -45,5 +51,4 @@ public class OrderController implements OrderApi {
   public ResponseEntity<Order> cancelOrder(UUID orderId, Long version) {
     return ResponseEntity.ok(orderService.cancelOrder(orderId, version));
   }
-
 }

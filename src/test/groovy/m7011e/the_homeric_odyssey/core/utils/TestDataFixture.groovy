@@ -1,6 +1,6 @@
 package m7011e.the_homeric_odyssey.core.utils
 
-
+import m7011e.the_homeric_odyssey.modelsModule.models.comands.OrderCreateCommand
 import m7011e.the_homeric_odyssey.modelsModule.models.domain.*
 import org.apache.commons.lang3.RandomStringUtils
 
@@ -82,5 +82,27 @@ class TestDataFixture {
                 .build()
 
         return defaultOrder
+    }
+
+    static OrderCreateCommand createTestCreateOrderCommand(Map overrides = [:]) {
+        def defaultDateTime = LocalDateTime.now()
+
+        def command = OrderCreateCommand.builder()
+                .productId(overrides.productId ?: UUID.randomUUID())
+                .status(overrides.status ?: OrderStatus.PENDING)
+                .quantity(overrides.quantity ?: 1)
+                .shippingAddress(overrides.shippingAddress ?: "123 Shipping St, Ship City")
+                .billingAddress(overrides.billingAddress ?: "123 Billing St, Bill City")
+                .contactEmail(overrides.contactEmail ?: "customer@example.com")
+                .contactPhone(overrides.contactPhone ?: "+1-555-9876")
+                .paymentMethod(overrides.paymentMethod ?: "CREDIT_CARD")
+                .paymentStatus(overrides.paymentStatus ?: "PENDING")
+                .transactionId(overrides.transactionId ?: "TXN-${UUID.randomUUID().toString().substring(0, 8)}")
+                .paidAt(overrides.paidAt ?: defaultDateTime)
+                .shippedAt(overrides.shippedAt ?: defaultDateTime)
+                .deliveredAt(overrides.deliveredAt ?: defaultDateTime)
+                .cancelledAt(overrides.cancelledAt ?: defaultDateTime)
+                .build()
+        return command
     }
 }

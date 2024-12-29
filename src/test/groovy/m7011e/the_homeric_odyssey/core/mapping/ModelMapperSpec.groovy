@@ -1,6 +1,7 @@
 package m7011e.the_homeric_odyssey.core.mapping
 
 import m7011e.the_homeric_odyssey.core.configuration.ModelMapperConfiguration
+import m7011e.the_homeric_odyssey.core.repository.ProductRepository
 import m7011e.the_homeric_odyssey.core.utils.TestDataFixture
 import m7011e.the_homeric_odyssey.coreorm.orm.OrderDb
 import m7011e.the_homeric_odyssey.coreorm.orm.ProductDb
@@ -16,8 +17,10 @@ class ModelMapperSpec extends Specification {
 
     private ModelMapper modelMapper = new ModelMapper();
 
-    void status() {
-        ModelMapperConfiguration.configureModelMapper(modelMapper)
+    private ProductRepository productRepository = Mock()
+
+    def setup() {
+        ModelMapperConfiguration.configureModelMapper(modelMapper, productRepository)
     }
 
     def "modelmapper -- is valid"() {
@@ -83,7 +86,8 @@ class ModelMapperSpec extends Specification {
         result.quantity == order.quantity
     }
 
-    private List<Object> compareResourceList(Set<ResourceDb> resourceDbs, Set<Resource> resources) {
+
+    private static List<Object> compareResourceList(Set<ResourceDb> resourceDbs, Set<Resource> resources) {
         StreamUtils.zip(
                 resourceDbs.stream(),
                 resources.stream(),
@@ -94,7 +98,7 @@ class ModelMapperSpec extends Specification {
         ).toList()
     }
 
-    private void compareResource(Resource resource, ResourceDb resourceDb) {
+    private static void compareResource(Resource resource, ResourceDb resourceDb) {
         assert resourceDb.id == resource.id
         assert resourceDb.version == resource.version
         assert resourceDb.createdAt == resource.createdAt
