@@ -8,18 +8,15 @@ import m7011e.the_homeric_odyssey.coreorm.orm.ProductDb;
 import m7011e.the_homeric_odyssey.coreorm.orm.ResourceDb;
 import m7011e.the_homeric_odyssey.modelsModule.models.comands.CartCommand;
 import m7011e.the_homeric_odyssey.modelsModule.models.comands.OrderCreateCommand;
-import m7011e.the_homeric_odyssey.modelsModule.models.comands.OrderStatusUpdateCommand;
 import m7011e.the_homeric_odyssey.modelsModule.models.comands.ProductCreateCommand;
 import m7011e.the_homeric_odyssey.modelsModule.models.comands.ProductUpdateCommand;
 import m7011e.the_homeric_odyssey.modelsModule.models.domain.CartItem;
 import m7011e.the_homeric_odyssey.modelsModule.models.domain.Order;
 import m7011e.the_homeric_odyssey.modelsModule.models.domain.Product;
 import m7011e.the_homeric_odyssey.modelsModule.models.domain.Resource;
-import org.jetbrains.annotations.NotNull;
 import org.modelmapper.Conditions;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -47,18 +44,47 @@ public class ModelMapperConfiguration {
 
   private static void configureCommands(
       ModelMapper modelMapper, ProductRepository productRepository) {
-    modelMapper.typeMap(CartCommand.class, CartItem.class);
     modelMapper
-        .typeMap(OrderCreateCommand.class, Order.class)
-        .addMappings(getOrderSkipPropertyMap())
+        .typeMap(CartCommand.class, CartItem.class)
         .addMappings(
             mapping -> {
+              mapping.skip(CartItem::setId);
+              mapping.skip(CartItem::setVersion);
+            });
+    modelMapper
+        .typeMap(OrderCreateCommand.class, Order.class)
+        .addMappings(
+            mapping -> {
+              mapping.skip(Order::setId);
+              mapping.skip(Order::setVersion);
+              mapping.skip(Order::setCreatedAt);
+              mapping.skip(Order::setUpdatedAt);
+              mapping.skip(Order::setTotalPrice);
+              mapping.skip(Order::setSub);
               mapping
                   .using(fetchProduct(modelMapper, productRepository))
                   .map(OrderCreateCommand::getProductId, Order::setProduct);
             });
-    modelMapper.typeMap(ProductCreateCommand.class, Product.class);
-    modelMapper.typeMap(ProductUpdateCommand.class, Product.class);
+    modelMapper
+        .typeMap(ProductCreateCommand.class, Product.class)
+        .addMappings(
+            mapping -> {
+              mapping.skip(Product::setId);
+              mapping.skip(Product::setVersion);
+              mapping.skip(Product::setCreatedAt);
+              mapping.skip(Product::setUpdatedAt);
+              mapping.skip(Product::setSub);
+            });
+    modelMapper
+        .typeMap(ProductUpdateCommand.class, Product.class)
+        .addMappings(
+            mapping -> {
+              mapping.skip(Product::setId);
+              mapping.skip(Product::setVersion);
+              mapping.skip(Product::setCreatedAt);
+              mapping.skip(Product::setUpdatedAt);
+              mapping.skip(Product::setSub);
+            });
   }
 
   private static void configureOrmClasses(ModelMapper modelMapper) {
@@ -70,34 +96,6 @@ public class ModelMapperConfiguration {
 
     modelMapper.typeMap(OrderDb.class, Order.class);
     modelMapper.typeMap(Order.class, OrderDb.class);
-  }
-
-  @NotNull
-  private static PropertyMap<OrderCreateCommand, Order> getOrderSkipPropertyMap() {
-    return new PropertyMap<OrderCreateCommand, Order>() {
-      @Override
-      protected void configure() {
-        skip(destination.getId());
-        skip(destination.getVersion());
-        skip(destination.getCreatedAt());
-        skip(destination.getUpdatedAt());
-        skip(destination.getTotalPrice());
-        skip(destination.getSub());
-        map(source.getStatus(), destination.getStatus());
-        map(source.getQuantity(), destination.getQuantity());
-        map(source.getShippingAddress(), destination.getShippingAddress());
-        map(source.getBillingAddress(), destination.getBillingAddress());
-        map(source.getContactEmail(), destination.getContactEmail());
-        map(source.getContactPhone(), destination.getContactPhone());
-        map(source.getPaymentMethod(), destination.getPaymentMethod());
-        map(source.getPaymentStatus(), destination.getPaymentStatus());
-        map(source.getTransactionId(), destination.getTransactionId());
-        map(source.getPaidAt(), destination.getPaidAt());
-        map(source.getShippedAt(), destination.getShippedAt());
-        map(source.getDeliveredAt(), destination.getDeliveredAt());
-        map(source.getCancelledAt(), destination.getCancelledAt());
-      }
-    };
   }
 
   private static Converter<UUID, Product> fetchProduct(
