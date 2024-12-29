@@ -1,0 +1,28 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_BASE_URL:http://localhost:8090/realms/The-Homeric-Odyssey-Vendor}
+          jwk-set-uri: ${KEYCLOAK_BASE_JWK:http://localhost:8090/realms/The-Homeric-Odyssey-Vendor/protocol/openid-connect/certs}
+  application.name: core-app
+  datasource:
+    password: ${DATASOURCE_PASSWORD:example}
+    url: ${DATASOURCE_URL:jdbc:postgresql://localhost:5432/postgres}
+    username: ${DATASOURCE_USERNAME:postgres}
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+    change-log: db/changelog/changelog-master.yaml
+registry:
+  api:
+    url: ${APPLICATION_REGISTRY_URL:http://localhost:8080}
+
+logging:
+  level:
+    root: info
+
+resource-server:
+  client-id: ${KEYCLOAK_CLIENT_ID:auth-server-client}
+
+application:
+  - product-publicly-available: ${CORE_PRODUCT_PUBLICLY_AVAILABLE_STATUES:AVAILABLE,PREORDER,EMPTY}
