@@ -54,7 +54,7 @@ public class EventLogIntegrationService {
     }
   }
 
-  public VendorEvent createVentorEventAndSend(
+  public void createVendorEventAndSend(
       String metaData, UUID productId, UUID target, EventType type, String message) {
     VendorEvent event =
         VendorEvent.builder()
@@ -70,12 +70,11 @@ public class EventLogIntegrationService {
             .build();
 
     logEvent(event);
-    return event;
   }
 
   public void sendProductEvent(Product product, EventType eventType, String message) {
     try {
-      createVentorEventAndSend(
+      createVendorEventAndSend(
           MetaDataUtils.javaObjectToString(product),
           product.getId(),
           product.getSub(),
@@ -89,7 +88,7 @@ public class EventLogIntegrationService {
 
   public void sendOrderEvent(Order order, EventType eventType, String message) {
     try {
-      createVentorEventAndSend(
+      createVendorEventAndSend(
           MetaDataUtils.javaObjectToString(order),
           order.getProduct().getId(),
           order.getSub(),
