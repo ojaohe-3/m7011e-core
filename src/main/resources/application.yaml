@@ -24,5 +24,9 @@ logging:
 resource-server:
   client-id: ${KEYCLOAK_CLIENT_ID:auth-server-client}
 
+event-log:
+  api:
+    url:${EVENT_LOG_URL:http://127.0.0.1:8088}
+
 application:
   - product-publicly-available: ${CORE_PRODUCT_PUBLICLY_AVAILABLE_STATUES:AVAILABLE,PREORDER,EMPTY}
