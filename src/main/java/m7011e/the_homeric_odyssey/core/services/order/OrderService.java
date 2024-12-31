@@ -6,12 +6,14 @@ import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import m7011e.the_homeric_odyssey.authentication_components.services.UserAuthenticationHelper;
+import m7011e.the_homeric_odyssey.core.services.integration.EventLogIntegrationService;
 import m7011e.the_homeric_odyssey.modelsModule.models.comands.OrderCreateCommand;
 import m7011e.the_homeric_odyssey.modelsModule.models.comands.OrderListCommand;
 import m7011e.the_homeric_odyssey.modelsModule.models.comands.OrderStatusUpdateCommand;
 import m7011e.the_homeric_odyssey.modelsModule.models.domain.Order;
 import m7011e.the_homeric_odyssey.modelsModule.models.domain.OrderStatus;
 import m7011e.the_homeric_odyssey.resource_server.exceptions.ForbiddenException;
+import m7011e.thehomericodyssey.eventlogmodels.models.EventType;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,8 @@ public class OrderService {
 
   private final OrderVerificationService orderVerificationService;
 
+  private final EventLogIntegrationService eventLogIntegrationService;
+
   private final ModelMapper modelMapper;
 
   public Order getOrder(UUID orderId) {
@@ -43,7 +47,9 @@ public class OrderService {
     orderVerificationService.verifyOrder(order);
     order.setTotalPrice(order.getProduct().getPrice() * order.getQuantity());
 
-    return orderPersistenceService.create(order);
+    Order createOrder = orderPersistenceService.create(order);
+    eventLogIntegrationService.sendOrderEvent(order, EventType.CREATED, "Order created");
+    return createOrder;
   }
 
   public Order updateOrderStatus(OrderStatusUpdateCommand command, UUID orderId, Long version) {
@@ -53,7 +59,10 @@ public class OrderService {
     order.setStatus(command.newStatus());
     orderVerificationService.verifyOrder(order);
 
-    return orderPersistenceService.update(order, orderId, version);
+    Order updateOrder = orderPersistenceService.update(order, orderId, version);
+    eventLogIntegrationService.sendOrderEvent(
+        updateOrder, EventType.MODIFIED, "Order status changed");
+    return updateOrder;
   }
 
   public Order updateOrder(OrderCreateCommand command, UUID orderId, Long version) {
@@ -63,7 +72,10 @@ public class OrderService {
     modelMapper.map(command, order);
     orderVerificationService.verifyOrder(order);
 
-    return orderPersistenceService.update(order, orderId, version);
+    Order updateOrder = orderPersistenceService.update(order, orderId, version);
+    eventLogIntegrationService.sendOrderEvent(
+        updateOrder, EventType.UPDATED, "Order has been updated");
+    return updateOrder;
   }
 
   private void checkReadPermission(UUID orderId, Order order) {
@@ -99,6 +111,9 @@ public class OrderService {
     existingOrder.setStatus(OrderStatus.CANCELLED);
     orderVerificationService.verifyOrder(existingOrder);
 
-    return orderPersistenceService.update(existingOrder, orderId, version);
+    Order updateOrder = orderPersistenceService.update(existingOrder, orderId, version);
+    eventLogIntegrationService.sendOrderEvent(
+        updateOrder, EventType.CANCELED, "Order cancelled");
+    return updateOrder;
   }
 }
