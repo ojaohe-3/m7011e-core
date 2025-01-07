@@ -12,10 +12,11 @@ import m7011e.the_homeric_odyssey.modelsModule.models.domain.Resource;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ProductRepository extends JpaRepository<ProductDb, UUID> {
+public interface ProductRepository extends JpaRepository<ProductDb, UUID>, JpaSpecificationExecutor<ProductDb> {
   default Specification<ProductDb> createFilterSpecification(ProductListCommand command) {
     return (root, query, cb) -> {
       List<Predicate> predicates = new ArrayList<>();

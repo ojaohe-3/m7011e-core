@@ -8,11 +8,12 @@ spring:
   application.name: core-app
   datasource:
     password: ${DATASOURCE_PASSWORD:example}
-    url: ${DATASOURCE_URL:jdbc:postgresql://localhost:5432/postgres}
+    url: ${DATASOURCE_URL:jdbc:postgresql://localhost:5432/core-app}
     username: ${DATASOURCE_USERNAME:postgres}
     driver-class-name: org.postgresql.Driver
   liquibase:
     change-log: db/changelog/changelog-master.yaml
+
 registry:
   api:
     url: ${APPLICATION_REGISTRY_URL:http://localhost:8080}
@@ -26,7 +27,8 @@ resource-server:
 
 event-log:
   api:
-    url:${EVENT_LOG_URL:http://127.0.0.1:8088}
+    url: ${EVENT_LOG_URL:http://127.0.0.1:8088}
 
-application:
-  - product-publicly-available: ${CORE_PRODUCT_PUBLICLY_AVAILABLE_STATUES:AVAILABLE,PREORDER,EMPTY}
+core-app:
+  application:
+    - product-publicly-available: ${CORE_PRODUCT_PUBLICLY_AVAILABLE_STATUES:AVAILABLE, PREORDER, EMPTY}

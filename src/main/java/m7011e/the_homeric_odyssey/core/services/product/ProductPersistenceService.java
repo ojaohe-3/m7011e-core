@@ -3,7 +3,6 @@ package m7011e.the_homeric_odyssey.core.services.product;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
-import m7011e.the_homeric_odyssey.core.repository.ProductQueryRepository;
 import m7011e.the_homeric_odyssey.core.repository.ProductRepository;
 import m7011e.the_homeric_odyssey.core.services.IPersistenceService;
 import m7011e.the_homeric_odyssey.core.util.VersionUtil;
@@ -28,8 +27,6 @@ public class ProductPersistenceService implements IPersistenceService<ProductDb,
   private final ModelMapper modelMapper;
 
   private final ProductRepository productRepository;
-
-  private final ProductQueryRepository productQueryRepository;
 
   @Override
   public Product create(Product entity) {
@@ -85,6 +82,6 @@ public class ProductPersistenceService implements IPersistenceService<ProductDb,
                 command.getSortBy() == null ? "createdAt" : command.getSortBy()));
 
     Specification<ProductDb> specification = productRepository.createFilterSpecification(command);
-    return productQueryRepository.findAll(specification, page).map(this::mapToDomain);
+    return productRepository.findAll(specification, page).map(this::mapToDomain);
   }
 }

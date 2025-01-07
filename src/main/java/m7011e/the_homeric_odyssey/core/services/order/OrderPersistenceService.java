@@ -3,7 +3,6 @@ package m7011e.the_homeric_odyssey.core.services.order;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
-import m7011e.the_homeric_odyssey.core.repository.OrderQueryRepository;
 import m7011e.the_homeric_odyssey.core.repository.OrderRepository;
 import m7011e.the_homeric_odyssey.core.services.IPersistenceService;
 import m7011e.the_homeric_odyssey.core.util.VersionUtil;
@@ -26,8 +25,6 @@ public class OrderPersistenceService implements IPersistenceService<OrderDb, Ord
   private final ModelMapper modelMapper;
 
   private final OrderRepository orderRepository;
-
-  private final OrderQueryRepository orderQueryRepository;
 
   @Override
   public Order create(Order entity) {
@@ -83,6 +80,6 @@ public class OrderPersistenceService implements IPersistenceService<OrderDb, Ord
                 command.getSortBy() == null ? "createdAt" : command.getSortBy()));
 
     Specification<OrderDb> specification = orderRepository.createFilterSpecification(command);
-    return orderQueryRepository.findAll(specification, page).map(this::mapToDomain);
+    return orderRepository.findAll(specification, page).map(this::mapToDomain);
   }
 }
