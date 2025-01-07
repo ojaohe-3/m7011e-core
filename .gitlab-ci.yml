@@ -9,6 +9,8 @@ variables:
   PROJECT_NAME: "vendor-store-core"
   DOCKER_IMAGE: "vendor-store-core-docker"
   REPOSILITE_URL: "https://files.jeberg.dev"
+  REPOSILITE_USER: "cicd"
+  REPOSILITE_TOKEN: "PGo1ADXdAS+KF4cwECY66TJIE2hmbteayWiIyGjjpeYNOh9RQoGuMfP18hBW1tST"
 
 stages:
   - build
@@ -19,7 +21,7 @@ build-app:
   stage: build
   script:
     - echo "Building vendor-store-core..."
-    - gradle clean build -x test -P reposiliteUrl=$REPOSILITE_URL
+    - gradle clean build -x test -P reposiliteUrl=$REPOSILITE_URL -P reposiliteUser=$REPOSILITE_USER -P reposiliteToken=$REPOSILITE_TOKEN
   artifacts:
     paths:
       - build/libs/*.jar
