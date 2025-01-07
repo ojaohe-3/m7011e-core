@@ -21,7 +21,7 @@ build-app:
   stage: build
   script:
     - echo "Building vendor-store-core..."
-    - gradle clean build -x test -P reposiliteUrl=$REPOSILITE_URL -P reposiliteUser=$REPOSILITE_USER -P reposiliteToken=$REPOSILITE_TOKEN
+    - gradle clean build -x test -P reposiliteUrl=$REPOSILITE_URL -P reposiliteUser=$REPOSILITE_USER -P reposiliteSecret=$REPOSILITE_TOKEN
   artifacts:
     paths:
       - build/libs/*.jar
