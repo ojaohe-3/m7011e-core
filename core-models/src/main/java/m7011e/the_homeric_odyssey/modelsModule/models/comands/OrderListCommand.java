@@ -12,10 +12,10 @@ import org.springframework.data.domain.Sort;
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class OrderListCommand {
-private Integer page;
-private Integer size;
+private Integer page = 0;
+private Integer size = 10;
 private String sortBy;
-private Sort.Direction sortDirection;
+private Sort.Direction sortDirection = Sort.Direction.ASC;
 private OrderStatus statusFilter;
 private LocalDateTime startDate;
 private LocalDateTime endDate;
