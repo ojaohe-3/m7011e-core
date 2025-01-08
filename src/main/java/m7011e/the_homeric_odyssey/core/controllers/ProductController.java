@@ -23,19 +23,21 @@ public class ProductController implements ProductApi {
   private final ProductService productService;
 
   @Override
-  @PreAuthorize("hasAnyRole('VENDOR','ADMIN', 'WRITE', 'READ')")
+  @PreAuthorize("hasAnyRole('VENDOR','ADMIN', 'SYSTEM')")
   public ResponseEntity<Product> createProduct(ProductCreateCommand command) {
 
     return ResponseEntity.status(HttpStatus.CREATED).body(productService.createProduct(command));
   }
 
   @Override
+  @PreAuthorize("hasAnyRole('VENDOR','ADMIN', 'SYSTEM')")
   public ResponseEntity<Product> updateProduct(
       UUID id, Long version, ProductUpdateCommand command) {
     return ResponseEntity.ok(productService.updateProduct(id, version, command));
   }
 
   @Override
+  @PreAuthorize("hasAnyRole('READ', 'ADMIN', 'SYSTEM')")
   public ResponseEntity<Product> getProduct(UUID id) {
     return ResponseEntity.ok(productService.getProduct(id));
   }
@@ -47,6 +49,7 @@ public class ProductController implements ProductApi {
   }
 
   @Override
+  @PreAuthorize("hasAnyRole('ADMIN', 'SYSTEM', 'VENDOR')")
   public ResponseEntity<Void> deleteProduct(UUID id, Long version) {
     productService.deleteProduct(id, version);
     return ResponseEntity.noContent().build();
