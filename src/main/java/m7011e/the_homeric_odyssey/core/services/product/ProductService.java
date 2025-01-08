@@ -1,6 +1,7 @@
 package m7011e.the_homeric_odyssey.core.services.product;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -19,10 +20,12 @@ import org.apache.commons.collections.CollectionUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional
 public class ProductService {
 
     private final CoreVendorConfigurationProperties properties;
@@ -48,13 +51,14 @@ public class ProductService {
 
     public Product createProduct(ProductCreateCommand command) {
         Product product = modelMapper.map(command, Product.class);
+        product.setSub(UUID.fromString(userAuthenticationHelper.getUserId().orElseThrow()));
         productVerificationService.verifyProduct(product);
         log.info(
                 "Creating product {}, {}",
                 product.getName(),
                 userAuthenticationHelper.getUserId().orElse("N/A"));
         Product createdProduct = productPersistenceService.create(product);
-        eventLogIntegrationService.sendProductEvent(product, EventType.CREATED, "Create Product");
+        eventLogIntegrationService.sendProductEvent(createdProduct, EventType.CREATED, "Create Product");
         return createdProduct;
     }
 
@@ -75,6 +79,7 @@ public class ProductService {
         } else {
             command.setSub(UUID.fromString(userAuthenticationHelper.getUserId().orElseThrow()));
         }
+
 
         Page<Product> query = productPersistenceService.query(command);
         query.getContent().forEach(productAuthenticationService::hasReadPermission);

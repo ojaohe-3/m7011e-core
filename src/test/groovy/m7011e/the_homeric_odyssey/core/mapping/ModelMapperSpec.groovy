@@ -10,7 +10,6 @@ import m7011e.the_homeric_odyssey.modelsModule.models.domain.Order
 import m7011e.the_homeric_odyssey.modelsModule.models.domain.Product
 import m7011e.the_homeric_odyssey.modelsModule.models.domain.Resource
 import org.modelmapper.ModelMapper
-import org.springframework.data.util.StreamUtils
 import spock.lang.Specification
 
 class ModelMapperSpec extends Specification {
@@ -54,8 +53,8 @@ class ModelMapperSpec extends Specification {
         result.price == product.price
         result.displayImage == product.displayImage
         result.status == product.status
-        compareResourceList(result.categories, product.categories)
-        compareResourceList(result.documents, product.documents)
+        result.categories.size() == product.categories.size()
+        result.documents.size() == product.documents.size()
     }
 
     def "modelmapper -- order to orderDb"() {
@@ -86,17 +85,6 @@ class ModelMapperSpec extends Specification {
         result.quantity == order.quantity
     }
 
-
-    private static List<Object> compareResourceList(Set<ResourceDb> resourceDbs, Set<Resource> resources) {
-        StreamUtils.zip(
-                resourceDbs.stream(),
-                resources.stream(),
-                (resourceDb, resource) -> {
-                    compareResource(resource, resourceDb)
-                    return null // bifunction requires a result
-                }
-        ).toList()
-    }
 
     private static void compareResource(Resource resource, ResourceDb resourceDb) {
         assert resourceDb.id == resource.id

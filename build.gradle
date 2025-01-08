@@ -7,6 +7,7 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.6'
     id 'org.graalvm.buildtools.native' version '0.10.3'
     id "pl.allegro.tech.build.axion-release" version "1.18.7"
+    id 'com.palantir.docker' version '0.36.0'
 }
 
 ext {
@@ -26,6 +27,15 @@ scmVersion {
 
 group = 'm7011e.the-homeric-odyssey'
 project.version = scmVersion.version
+
+docker {
+    name "ojaohe/${rootProject.group}.${rootProject.name}:${project.version}"
+    dockerfile file('Dockerfile')
+    files bootJar.outputs.files
+    buildArgs([
+            'JAR_FILE': "${bootJar.archiveFileName.get()}"
+    ])
+}
 
 
 subprojects.each {
@@ -87,7 +97,7 @@ allprojects {
     }
 
     dependencies {
-        implementation platform(group: 'm7011e.the-homeric-odyssey', name: 'common-dependencies', version: '0.1.0')
+        implementation platform(group: 'm7011e.the-homeric-odyssey', name: 'common-dependencies', version: '0.1.1')
 //        implementation platform(group: 'm7011e.the-homeric-odyssey', name: 'registry', version: '0.1.0')
         api 'm7011e.the-homeric-odyssey:resource-server'
         api 'm7011e.the-homeric-odyssey:authentication-components'
@@ -149,7 +159,7 @@ project(":core-orm") {
 }
 
 dependencies {
-    implementation 'm7011e.the-homeric-odyssey:event-log-models:0.2.2'
+    implementation 'm7011e.the-homeric-odyssey:event-log-models:1.0.2'
 
     implementation 'org.springframework.session:spring-session-data-redis'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'

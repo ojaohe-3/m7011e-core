@@ -1,10 +1,12 @@
 package m7011e.the_homeric_odyssey.coreorm.orm;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Index;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.Set;
@@ -42,9 +44,11 @@ public class ProductDb extends AbstractDbObject {
   @Enumerated(EnumType.STRING)
   private ProductStatus status;
 
-  @OneToMany private Set<ResourceDb> categories;
+  @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+  private Set<ResourceDb> categories;
 
-  @OneToMany private Set<ResourceDb> documents;
+  @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+  private Set<ResourceDb> documents;
 
   private String displayImage;
 

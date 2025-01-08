@@ -32,3 +32,15 @@ event-log:
 core-app:
   application:
     - product-publicly-available: ${CORE_PRODUCT_PUBLICLY_AVAILABLE_STATUES:AVAILABLE, PREORDER, EMPTY}
+
+security:
+  authentication:
+    url: ${AUTH_SERVER_URL:http://localhost/auth/realms/The-Homeric-Odyssey-Vendor/protocol/openid-connect/token}
+    client-id: ${KEYCLOAK_CLIENT_ID:auth-server-client}
+    client-secret: ${KEYCLOAK_CLIENT_SECRET:Y9zA2dnuBLrenro4uKEGQQRyjCDPUwAX}
+    system-user:
+      username: ${SYSTEM_USERNAME:admin}
+      password: ${SYSTEM_PASSWORD:admin123}
+
+server:
+  port: 9999

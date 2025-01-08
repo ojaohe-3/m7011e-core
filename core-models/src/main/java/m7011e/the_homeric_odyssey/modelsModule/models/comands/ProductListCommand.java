@@ -12,10 +12,10 @@ import org.springframework.data.domain.Sort;
 @NoArgsConstructor
 @Data
 public class ProductListCommand {
-  private Integer page;
-  private Integer size;
+  private Integer page = 0;
+  private Integer size = 10;
   private String sortBy;
-  private Sort.Direction sortDirection;
+  private Sort.Direction sortDirection = Sort.Direction.ASC;
   private String nameFilter;
   private Double minPrice;
   private Double maxPrice;
