@@ -61,7 +61,7 @@ public class ProductService {
 
   public Product updateProduct(UUID id, Long version, ProductUpdateCommand command) {
     Product product = getProduct(id);
-    if (productAuthenticationService.hasWritePermission(product)) {
+    if (!productAuthenticationService.hasWritePermission(product)) {
       throw new ForbiddenException("User lacks access to item");
     }
     modelMapper.map(command, product);
