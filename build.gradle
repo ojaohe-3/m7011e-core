@@ -26,7 +26,7 @@ scmVersion {
 }
 
 group = 'm7011e.the-homeric-odyssey'
-project.version = '1.2.0'
+project.version = scmVersion.version
 
 docker {
     name "ojaohe/${rootProject.group}.${rootProject.name}:${project.version}"

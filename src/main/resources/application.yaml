@@ -41,6 +41,3 @@ security:
     system-user:
       username: ${SYSTEM_USERNAME:admin}
       password: ${SYSTEM_PASSWORD:admin123}
-
-server:
-  port: 9999
