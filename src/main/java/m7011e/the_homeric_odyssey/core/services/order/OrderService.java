@@ -45,7 +45,7 @@ public class OrderService {
     Order order = modelMapper.map(orderCreateCommand, Order.class);
     order.setSub(UUID.fromString(userAuthenticationHelper.getUserId().orElseThrow()));
     orderVerificationService.verifyOrder(order);
-    order.setTotalPrice(order.getProduct().getPrice() * order.getQuantity());
+    order.setTotalPrice(Double.valueOf(order.getProduct().getPrice() * order.getQuantity()));
 
     Order createOrder = orderPersistenceService.create(order);
     eventLogIntegrationService.sendOrderEvent(order, EventType.CREATED, "Order created");

@@ -23,7 +23,7 @@ public class OrderProductValidation implements OrderVerificationRow {
   @Override
   public void validate(@NonNull Order resource, Errors errors) {
     if (Objects.isNull(resource.getProduct())
-        || productRepository.existsById(resource.getProduct().getId())) {
+        || !productRepository.existsById(resource.getProduct().getId())) {
       errors.rejectValue("product", "order.product.must.exist");
       return;
     }
