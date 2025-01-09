@@ -62,6 +62,10 @@ public class ProductService {
   public Product updateProduct(UUID id, Long version, ProductUpdateCommand command) {
     Product product = getProduct(id);
     if (!productAuthenticationService.hasWritePermission(product)) {
+      log.error(
+          "User {} does not have write access to Product {}",
+          userAuthenticationHelper.getUserId().orElse(null),
+          id);
       throw new ForbiddenException("User lacks access to item");
     }
     modelMapper.map(command, product);
@@ -85,7 +89,11 @@ public class ProductService {
 
   public void deleteProduct(UUID id, Long version) {
     Product product = getProduct(id);
-    if (productAuthenticationService.hasWritePermission(product)) {
+    if (!productAuthenticationService.hasWritePermission(product)) {
+      log.error(
+          "User {} does not have write access to Product {}",
+          userAuthenticationHelper.getUserId().orElse(null),
+          id);
       throw new ForbiddenException("User lacks access to item");
     }
     eventLogIntegrationService.sendProductEvent(product, EventType.CANCELED, "Product deleted");

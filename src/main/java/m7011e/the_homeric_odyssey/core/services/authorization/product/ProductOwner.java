@@ -23,7 +23,6 @@ public class ProductOwner implements ProductAuthenticationRow {
   @Override
   public boolean hasWritePermission(Product resource) {
     return userAuthenticationHelper.hasWriteRole(RealmUserType.VENDOR)
-        && ResourceAuthorizationUtil.isOwner(userAuthenticationHelper, resource.getSub())
-        && userAuthenticationHelper.hasWriteRole(RealmUserType.VENDOR);
+        && ResourceAuthorizationUtil.isOwner(userAuthenticationHelper, resource.getSub());
   }
 }
