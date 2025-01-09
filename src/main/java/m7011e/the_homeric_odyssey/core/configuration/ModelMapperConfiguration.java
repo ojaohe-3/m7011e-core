@@ -25,10 +25,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ModelMapperConfiguration {
 
-  @Autowired private ProductRepository productRepository;
-
   public static void configureModelMapper(
-      ModelMapper modelMapper, ProductRepository productRepository) {
+      ModelMapper modelMapper) {
     modelMapper
         .getConfiguration()
         .setMatchingStrategy(MatchingStrategies.STRICT) // Use strict matching
@@ -39,11 +37,11 @@ public class ModelMapperConfiguration {
         .setAmbiguityIgnored(true);
 
     configureOrmClasses(modelMapper);
-    configureCommands(modelMapper, productRepository);
+    configureCommands(modelMapper);
   }
 
   private static void configureCommands(
-      ModelMapper modelMapper, ProductRepository productRepository) {
+      ModelMapper modelMapper) {
     modelMapper
         .typeMap(CartCommand.class, CartItem.class)
         .addMappings(
@@ -61,9 +59,6 @@ public class ModelMapperConfiguration {
               mapping.skip(Order::setUpdatedAt);
               mapping.skip(Order::setTotalPrice);
               mapping.skip(Order::setSub);
-              mapping
-                  .using(fetchProduct(modelMapper, productRepository))
-                  .map(OrderCreateCommand::getProductId, Order::setProduct);
             });
     modelMapper
         .typeMap(ProductCreateCommand.class, Product.class)
@@ -112,7 +107,7 @@ public class ModelMapperConfiguration {
   @Bean
   public ModelMapper modelMapper() {
     ModelMapper modelMapper = new ModelMapper();
-    configureModelMapper(modelMapper, productRepository);
+    configureModelMapper(modelMapper);
     return modelMapper;
   }
 }

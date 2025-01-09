@@ -7,11 +7,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import m7011e.the_homeric_odyssey.authentication_components.services.UserAuthenticationHelper;
 import m7011e.the_homeric_odyssey.core.services.integration.EventLogIntegrationService;
+import m7011e.the_homeric_odyssey.core.services.product.ProductService;
 import m7011e.the_homeric_odyssey.modelsModule.models.comands.OrderCreateCommand;
 import m7011e.the_homeric_odyssey.modelsModule.models.comands.OrderListCommand;
 import m7011e.the_homeric_odyssey.modelsModule.models.comands.OrderStatusUpdateCommand;
 import m7011e.the_homeric_odyssey.modelsModule.models.domain.Order;
 import m7011e.the_homeric_odyssey.modelsModule.models.domain.OrderStatus;
+import m7011e.the_homeric_odyssey.modelsModule.models.domain.Product;
 import m7011e.the_homeric_odyssey.resource_server.exceptions.ForbiddenException;
 import m7011e.thehomericodyssey.eventlogmodels.models.EventType;
 import org.modelmapper.ModelMapper;
@@ -33,6 +35,8 @@ public class OrderService {
 
   private final EventLogIntegrationService eventLogIntegrationService;
 
+  private final ProductService productService;
+
   private final ModelMapper modelMapper;
 
   public Order getOrder(UUID orderId) {
@@ -45,7 +49,9 @@ public class OrderService {
     Order order = modelMapper.map(orderCreateCommand, Order.class);
     order.setSub(UUID.fromString(userAuthenticationHelper.getUserId().orElseThrow()));
     orderVerificationService.verifyOrder(order);
-    order.setTotalPrice(Double.valueOf(order.getProduct().getPrice() * order.getQuantity()));
+
+    Product product = productService.getProduct(order.getProductId());
+    order.setTotalPrice(Double.valueOf(product.getPrice() * order.getQuantity()));
 
     Order createOrder = orderPersistenceService.create(order);
     eventLogIntegrationService.sendOrderEvent(order, EventType.CREATED, "Order created");

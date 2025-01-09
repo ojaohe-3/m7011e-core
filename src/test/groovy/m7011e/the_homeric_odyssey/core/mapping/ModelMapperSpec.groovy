@@ -19,7 +19,7 @@ class ModelMapperSpec extends Specification {
     private ProductRepository productRepository = Mock()
 
     def setup() {
-        ModelMapperConfiguration.configureModelMapper(modelMapper, productRepository)
+        ModelMapperConfiguration.configureModelMapper(modelMapper)
     }
 
     def "modelmapper -- is valid"() {

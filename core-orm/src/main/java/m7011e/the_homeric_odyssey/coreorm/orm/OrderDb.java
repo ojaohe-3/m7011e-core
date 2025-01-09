@@ -1,6 +1,7 @@
 package m7011e.the_homeric_odyssey.coreorm.orm;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -37,11 +38,8 @@ public class OrderDb extends AbstractDbObject {
   @Enumerated(EnumType.STRING)
   private OrderStatus status;
 
-  @OneToOne(
-      cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
-      fetch = FetchType.LAZY)
-  @JoinColumn(name = "product_id")
-  private ProductDb product;
+  @Column(name = "product_id")
+  private UUID productId;
 
   private Integer quantity;
 

@@ -25,7 +25,7 @@ public class Order {
 
   private OrderStatus status;
 
-  private Product product;
+  private UUID productId;
 
   private Integer quantity;
 

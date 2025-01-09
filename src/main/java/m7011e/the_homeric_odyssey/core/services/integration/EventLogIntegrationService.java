@@ -99,7 +99,7 @@ public class EventLogIntegrationService {
     try {
       createVendorEventAndSend(
           MetaDataUtils.javaObjectToString(order),
-          order.getProduct().getId(),
+          order.getProductId(),
           order.getSub(),
           eventType,
           message);

@@ -22,15 +22,15 @@ public class OrderProductValidation implements OrderVerificationRow {
 
   @Override
   public void validate(@NonNull Order resource, Errors errors) {
-    if (Objects.isNull(resource.getProduct())
-        || !productRepository.existsById(resource.getProduct().getId())) {
+    if (Objects.isNull(resource.getProductId())
+        || !productRepository.existsById(resource.getProductId())) {
       errors.rejectValue("product", "order.product.must.exist");
       return;
     }
 
     rejectOnCondition(
         productRepository
-            .findById(resource.getProduct().getId())
+            .findById(resource.getProductId())
             .map(ProductDb::getStatus)
             .filter(INVALID_PRODUCT_STATUES::contains)
             .isPresent(),
