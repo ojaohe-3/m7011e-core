@@ -41,7 +41,9 @@ public class ProductService {
   public Product getProduct(UUID id) {
     Product product = productPersistenceService.get(id);
     log.debug("Fetched product {}", id);
-    productAuthenticationService.hasReadPermission(product);
+    if(!productAuthenticationService.hasReadPermission(product)){
+      throw new ForbiddenException("User does not have premission");
+    }
     return product;
   }
 
